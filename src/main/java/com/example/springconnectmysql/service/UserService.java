@@ -8,6 +8,9 @@ import com.example.springconnectmysql.mapper.UserMapper;
 import com.example.springconnectmysql.repository.UserRepository;
 import com.example.springconnectmysql.dto.request.UserCreationRequest;
 import com.example.springconnectmysql.dto.request.UserUpdateRequest;
+import lombok.AccessLevel;
+import lombok.RequiredArgsConstructor;
+import lombok.experimental.FieldDefaults;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -15,11 +18,11 @@ import java.util.List;
 import java.util.Optional;
 
 @Service
+@RequiredArgsConstructor
+@FieldDefaults(level = AccessLevel.PRIVATE, makeFinal = true)
 public class UserService {
-    @Autowired
-    private UserRepository userRepository;
-    @Autowired
-    private UserMapper userMapper;
+    UserRepository userRepository;
+    UserMapper userMapper;
 
     public User createUser(UserCreationRequest request){
         if(userRepository.existsByUserName(request.getUserName())){
