@@ -1,22 +1,25 @@
-package com.example.springconnectmysql.request;
+package com.example.springconnectmysql.dto.request;
 
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Size;
-import lombok.Data;
-import lombok.Getter;
-import lombok.Setter;
+import lombok.*;
+import lombok.experimental.FieldDefaults;
 
 import java.time.LocalDate;
 
 @Data
+@NoArgsConstructor
+@AllArgsConstructor
+@Builder
+@FieldDefaults(level = AccessLevel.PRIVATE)
 public class UserCreationRequest {
     @Size(min = 5, message = "USERNAME_INVALID")
-    private String userName;
+    String userName;
     @Size(min = 8, message = "PASSWORD_INVALID")
-    private String password;
+    String password;
     @NotBlank(message = "NOT_FILL_INFOR")
-    private String firstName, lastName;
-    private LocalDate dob;
+    String firstName, lastName;
+    LocalDate dob;
 
 
 }

@@ -1,7 +1,6 @@
 package com.example.springconnectmysql.exception;
 
-import com.example.springconnectmysql.request.ApiRespone;
-import com.fasterxml.jackson.databind.util.ClassUtil;
+import com.example.springconnectmysql.dto.request.ApiRespone;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ControllerAdvice;

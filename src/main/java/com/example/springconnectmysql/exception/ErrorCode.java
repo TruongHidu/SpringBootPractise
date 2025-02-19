@@ -6,7 +6,8 @@ public enum ErrorCode {
     USERNAME_INVALID(103, "Username must be at least 5 characters"),
     PASSWORD_INVALID(104,"Password must be at least 8 characters"),
     INVALID_KEY(101, "Invalid message key"),
-    NOT_FILL_INFOR(108,"You must fill all information")
+    NOT_FILL_INFOR(108,"You must fill all information"),
+    IDUSER_NOT_EXIST(109, "User doesn't exist")
     ;
     private int code;
     private String message;
