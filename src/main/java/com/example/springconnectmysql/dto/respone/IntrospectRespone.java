@@ -1,4 +1,4 @@
-package com.example.springconnectmysql.dto.request;
+package com.example.springconnectmysql.dto.respone;
 
 import lombok.*;
 import lombok.experimental.FieldDefaults;
@@ -8,8 +8,7 @@ import lombok.experimental.FieldDefaults;
 @AllArgsConstructor
 @Builder
 @FieldDefaults(level = AccessLevel.PRIVATE)
-public class AuthenticationRequest {
-    String userName;
-    String password;
+public class IntrospectRespone {
+    boolean valid;
 
 }
