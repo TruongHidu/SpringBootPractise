@@ -7,11 +7,14 @@ import com.example.springconnectmysql.dto.request.UserCreationRequest;
 import com.example.springconnectmysql.dto.request.UserUpdateRequest;
 import com.example.springconnectmysql.service.UserService;
 import jakarta.validation.Valid;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
+@Slf4j
 @RestController
 @RequestMapping("/users")
 public class UserController {
@@ -19,14 +22,19 @@ public class UserController {
     private UserService userService;
 
     @PostMapping
-    ApiRespone<User> createUser(@RequestBody @Valid UserCreationRequest request ){
-        ApiRespone<User> apiRespone = new ApiRespone<>();
-        apiRespone.setResult( userService.createUser(request));
-        return apiRespone;
+    ApiRespone<UserRespone> createUser(@RequestBody @Valid UserCreationRequest request ){
+        return ApiRespone.<UserRespone>builder()
+                .result(userService.createUser(request))
+                .build();
     }
     @GetMapping
-    List<User> getUsers(){
-        return userService.getUser();
+    ApiRespone<List<UserRespone>> getUsers(){
+        var authetication = SecurityContextHolder.getContext().getAuthentication();
+        log.info("Username:{}", authetication.getName());
+        authetication.getAuthorities().forEach(grantedAuthority -> log.info(grantedAuthority.getAuthority()));
+        return ApiRespone.<List<UserRespone>>builder()
+                .result(userService.getUsers())
+                .build();
     }
 
     @GetMapping("/{userId}")

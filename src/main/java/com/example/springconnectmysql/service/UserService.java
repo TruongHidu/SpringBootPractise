@@ -1,5 +1,6 @@
 package com.example.springconnectmysql.service;
 
+import com.example.springconnectmysql.dto.request.ApiRespone;
 import com.example.springconnectmysql.dto.respone.UserRespone;
 import com.example.springconnectmysql.entity.User;
 import com.example.springconnectmysql.enums.Role;
@@ -30,7 +31,7 @@ public class UserService {
     UserMapper userMapper;
     PasswordEncoder passwordEncoder;
     @Transactional
-    public User createUser(UserCreationRequest request){
+    public UserRespone createUser(UserCreationRequest request){
         if(userRepository.existsByUserName(request.getUserName().trim())){
             throw new AppException(ErrorCode.USER_EXISTED);
         }
@@ -41,7 +42,7 @@ public class UserService {
         HashSet<String> roles= new HashSet<>();
         roles.add(Role.USER.name());
         user.setRoles(roles);
-        return userRepository.save(user);
+        return userMapper.toUserRespone(userRepository.save(user));
     }
 
     public UserRespone updateUser(String userId, UserUpdateRequest request){
@@ -58,8 +59,8 @@ public class UserService {
             throw new AppException(ErrorCode.IDUSER_NOT_EXIST);
         userRepository.deleteById(userId);
     }
-    public List<User> getUser(){
-        return userRepository.findAll();
+    public List<UserRespone> getUsers(){
+        return userRepository.findAll().stream().map(userMapper::toUserRespone).toList();
     }
     public UserRespone getUser(String id){
         return userMapper.toUserRespone(userRepository.findById(id).orElseThrow( ()-> new AppException(ErrorCode.IDUSER_NOT_EXIST)));
