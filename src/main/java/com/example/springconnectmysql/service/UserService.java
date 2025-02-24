@@ -14,7 +14,11 @@ import jakarta.transaction.Transactional;
 import lombok.AccessLevel;
 import lombok.RequiredArgsConstructor;
 import lombok.experimental.FieldDefaults;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.access.prepost.PostAuthorize;
+import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
@@ -23,6 +27,7 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Optional;
 
+@Slf4j
 @Service
 @RequiredArgsConstructor
 @FieldDefaults(level = AccessLevel.PRIVATE, makeFinal = true)
@@ -47,7 +52,7 @@ public class UserService {
 
     public UserRespone updateUser(String userId, UserUpdateRequest request){
         User user = userRepository.findById(userId)
-                .orElseThrow(() -> new AppException(ErrorCode.IDUSER_NOT_EXIST));
+                .orElseThrow(() -> new AppException(ErrorCode.USER_NOT_EXIST));
 
         userMapper.updateUser(user, request);
         return userMapper.toUserRespone(userRepository.save(user));
@@ -56,14 +61,26 @@ public class UserService {
     public void deleteUser(String userId){
 
         if(!userRepository.existsById(userId))
-            throw new AppException(ErrorCode.IDUSER_NOT_EXIST);
+            throw new AppException(ErrorCode.USER_NOT_EXIST);
         userRepository.deleteById(userId);
     }
+    @PreAuthorize("hasRole('ADMIN')")
     public List<UserRespone> getUsers(){
+        log.info("In method get user");
         return userRepository.findAll().stream().map(userMapper::toUserRespone).toList();
     }
+
+    @PostAuthorize("returnObject.userName==authentication.name")
     public UserRespone getUser(String id){
-        return userMapper.toUserRespone(userRepository.findById(id).orElseThrow( ()-> new AppException(ErrorCode.IDUSER_NOT_EXIST)));
+        return userMapper.toUserRespone(userRepository.findById(id)
+                .orElseThrow( ()-> new AppException(ErrorCode.USER_NOT_EXIST)));
+    }
+
+    public UserRespone getMyInfo(){
+        var context = SecurityContextHolder.getContext();
+        String name = context.getAuthentication().getName();
+        User user = userRepository.findByUserName(name).orElseThrow(()-> new AppException(ErrorCode.USER_NOT_EXIST));
+        return userMapper.toUserRespone(user);
     }
 
 
