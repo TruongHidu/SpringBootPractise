@@ -2,9 +2,11 @@ package com.example.springconnectmysql.exception;
 
 import com.example.springconnectmysql.dto.request.ApiRespone;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.AccessDeniedException;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
+
 
 @ControllerAdvice
 public class GlobalExceptionHandler {
@@ -23,7 +25,19 @@ public class GlobalExceptionHandler {
         ApiRespone apiRespone = new ApiRespone();
         apiRespone.setCode(errorCode.getCode());
         apiRespone.setMessage(errorCode.getMessage());
-        return ResponseEntity.badRequest().body(apiRespone);
+        return ResponseEntity
+                .status(errorCode.getStatusCode())
+                .body(apiRespone);
+    }
+    @ExceptionHandler(value = AccessDeniedException.class)
+    ResponseEntity<ApiRespone> handlingAccessDeniedException(AccessDeniedException exception){
+        ErrorCode errorCode = ErrorCode.UNAUTHORIZED;
+        return ResponseEntity.status(errorCode.getStatusCode()).body(
+                ApiRespone.builder()
+                        .code(errorCode.getCode())
+                        .message(errorCode.getMessage())
+                        .build()
+        );
     }
 
     @ExceptionHandler(value = MethodArgumentNotValidException.class)
