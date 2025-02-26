@@ -1,7 +1,10 @@
 package com.example.springconnectmysql.entity;
 
 
-import jakarta.persistence.*;
+import jakarta.persistence.Entity;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
+import jakarta.persistence.Id;
 import lombok.*;
 import lombok.experimental.FieldDefaults;
 
@@ -16,19 +19,10 @@ import java.util.Set;
 @FieldDefaults(level = AccessLevel.PRIVATE)
 @Entity
 @Builder
-public class User {
+public class Permission {
     @Id
-    @GeneratedValue(strategy = GenerationType.UUID)
-    String id;
-    String userName;
-    String password;
-    String firstName, lastName;
-    LocalDate dob;
-    @ManyToMany
-    Set<Role> roles;
-
-
-
+    String name;
+    String description;
 
 
 }

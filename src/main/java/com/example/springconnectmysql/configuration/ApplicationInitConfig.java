@@ -32,7 +32,7 @@ public class ApplicationInitConfig {
                 User user = User.builder()
                         .userName("admin")  // Sửa lỗi chính tả
                         .password(passwordEncoder.encode("admin"))
-                        .roles(roles)
+                       // .roles(roles)
                         .build();
 
                 userRepository.save(user);

@@ -1,7 +1,6 @@
 package com.example.springconnectmysql.dto.respone;
 
 import com.example.springconnectmysql.entity.Role;
-import jakarta.persistence.ManyToMany;
 import lombok.*;
 import lombok.experimental.FieldDefaults;
 
@@ -13,11 +12,7 @@ import java.util.Set;
 @AllArgsConstructor
 @Builder
 @FieldDefaults(level = AccessLevel.PRIVATE)
-public class UserRespone {
-    String id;
-    String userName;
-    String firstName, lastName;
-    LocalDate dob;
-
-    Set<Role> roles;
+public class PermissionResponse {
+    String name;
+    String description;
 }
