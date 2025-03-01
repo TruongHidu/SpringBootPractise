@@ -15,7 +15,7 @@ import java.util.List;
 public class UserUpdateRequest {
     String password;
     String firstName, lastName;
-    @DobConstraint(min = 18, message = "DOB_NOT_ENOUGH")
+    @DobConstraint(min = 16, message = "DOB_NOT_ENOUGH")
     LocalDate dob;
     List<String> roles;
 

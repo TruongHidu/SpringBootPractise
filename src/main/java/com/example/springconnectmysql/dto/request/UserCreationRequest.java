@@ -20,7 +20,7 @@ public class UserCreationRequest {
     String password;
     @NotBlank(message = "NOT_FILL_INFOR")
     String firstName, lastName;
-    @DobConstraint(min = 18, message = "DOB_NOT_ENOUGH")
+    @DobConstraint(min = 16, message = "DOB_NOT_ENOUGH")
     LocalDate dob;
 
 
