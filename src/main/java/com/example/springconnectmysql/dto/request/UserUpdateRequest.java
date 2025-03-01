@@ -1,9 +1,12 @@
 package com.example.springconnectmysql.dto.request;
 
+import com.example.springconnectmysql.validator.DobConstraint;
 import lombok.*;
 import lombok.experimental.FieldDefaults;
 
 import java.time.LocalDate;
+import java.util.List;
+
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
@@ -12,6 +15,8 @@ import java.time.LocalDate;
 public class UserUpdateRequest {
     String password;
     String firstName, lastName;
+    @DobConstraint(min = 18, message = "DOB_NOT_ENOUGH")
     LocalDate dob;
+    List<String> roles;
 
 }

@@ -13,7 +13,8 @@ public enum ErrorCode {
     NOT_FILL_INFOR(108,"You must fill all information", HttpStatus.BAD_REQUEST),
     USER_NOT_EXIST(109, "User doesn't exist", HttpStatus.NOT_FOUND),
     UNAUTHENTICATED(202, "Unauthenticated",HttpStatus.UNAUTHORIZED ),
-    UNAUTHORIZED(201, "You dont have permission!",HttpStatus.FORBIDDEN)
+    UNAUTHORIZED(201, "You dont have permission!",HttpStatus.FORBIDDEN),
+    DOB_NOT_ENOUGH(6969, "Day of birth must more 18 years old!", HttpStatus.BAD_REQUEST)
 
     ;
     private int code;

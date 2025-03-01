@@ -1,5 +1,6 @@
 package com.example.springconnectmysql.dto.request;
 
+import com.example.springconnectmysql.validator.DobConstraint;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Size;
 import lombok.*;
@@ -19,6 +20,7 @@ public class UserCreationRequest {
     String password;
     @NotBlank(message = "NOT_FILL_INFOR")
     String firstName, lastName;
+    @DobConstraint(min = 18, message = "DOB_NOT_ENOUGH")
     LocalDate dob;
 
 

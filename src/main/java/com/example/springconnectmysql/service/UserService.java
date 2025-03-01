@@ -7,6 +7,7 @@ import com.example.springconnectmysql.enums.Role;
 import com.example.springconnectmysql.exception.AppException;
 import com.example.springconnectmysql.exception.ErrorCode;
 import com.example.springconnectmysql.mapper.UserMapper;
+import com.example.springconnectmysql.repository.RoleRepository;
 import com.example.springconnectmysql.repository.UserRepository;
 import com.example.springconnectmysql.dto.request.UserCreationRequest;
 import com.example.springconnectmysql.dto.request.UserUpdateRequest;
@@ -33,6 +34,7 @@ import java.util.Optional;
 @FieldDefaults(level = AccessLevel.PRIVATE, makeFinal = true)
 public class UserService {
     UserRepository userRepository;
+    RoleRepository roleRepository;
     UserMapper userMapper;
     PasswordEncoder passwordEncoder;
     @Transactional
@@ -55,6 +57,11 @@ public class UserService {
                 .orElseThrow(() -> new AppException(ErrorCode.USER_NOT_EXIST));
 
         userMapper.updateUser(user, request);
+        user.setPassword(passwordEncoder.encode(user.getPassword()));
+
+        var roles = roleRepository.findAllById(request.getRoles());
+        user.setRoles(new HashSet<>(roles));
+
         return userMapper.toUserRespone(userRepository.save(user));
 
     }
