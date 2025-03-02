@@ -3,6 +3,7 @@ package com.example.springconnectmysql.controller;
 import com.example.springconnectmysql.dto.request.ApiRespone;
 import com.example.springconnectmysql.dto.request.AuthenticationRequest;
 import com.example.springconnectmysql.dto.request.IntrospectRequest;
+import com.example.springconnectmysql.dto.request.LogoutRequest;
 import com.example.springconnectmysql.dto.respone.AuthenticationRespone;
 import com.example.springconnectmysql.dto.respone.IntrospectRespone;
 import com.example.springconnectmysql.service.AuthenticationService;
@@ -41,6 +42,16 @@ public class AuthenticationController {
                 .build();
 
     }
+
+    @PostMapping("/logout")
+    ApiRespone<Void> authenticate(@RequestBody LogoutRequest request)
+            throws ParseException, JOSEException {
+        authenticationService.logout(request);
+        return ApiRespone.<Void>builder()
+                .build();
+
+    }
+
 
 
 }
